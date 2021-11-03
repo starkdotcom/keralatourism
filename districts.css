@@ -1,0 +1,9 @@
+.zoom {
+  transform: scale(2);
+  position: relative;
+  top: 47.5px;
+  left: 40px;
+}
+.adjust {
+  transform: scale(1);
+}
