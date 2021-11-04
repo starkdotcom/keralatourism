@@ -1,6 +1,40 @@
 body section.content {
   background-repeat: no-repeat;
   background-size: cover;
+  width: 100%;
+  min-height: 500px;
+  position: relative;
+  padding: 0;
+  background-repeat: no-repeat; /*
+  background-size: cover;*/
+}
+/*
+body section.content::after {
+  content: "";
+  /*background: rgba(0, 0, 0, 0.322);*
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}*/
+body section.content::after {
+  color: white;
+}
+section.content .container {
+  min-width: 100%;
+  min-height: 500px;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.322);
+}
+section.content .container h1,
+section.content .container p {
+  color: white;
+}
+section.content .container p {
+  padding: 15px;
+  font-size: 17px;
 }
 body.ernak section.content,
 .cards.ernak {

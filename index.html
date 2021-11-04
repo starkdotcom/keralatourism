@@ -19,7 +19,7 @@
   
     <title>Ker❤la Tourism</title>
     <link rel="icon" href="kerala2.jpg" type="image/x-icon" />
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="index.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/css/swiper.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -48,13 +48,14 @@
             aria-controls="navbarResponsive"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onclick="bgchg()"
           >
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item active">
-                <a class="nav-link " href="#">Home</a>
+                <a class="nav-link " href="./index.html">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link " href="./districts.html">Districts</a>
@@ -138,8 +139,16 @@
   <!script src="main.js"><!/script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
-  <script>  
+  <script> 
+   
+  /*
+  else{
+    header.classList.add("navbar-dark");
+    header.classList.remove("navbar-light");
+  }*/
+
       window.onscroll = function() {onScroll()};
+    var brand= document.getElementById("header");
     var header = document.getElementById("navbar");
     var sticky = header.offsetTop;
     function onScroll() {
@@ -152,8 +161,21 @@
     header.classList.remove("sticky");
     header.classList.remove("navbar-light");
   }
-
+  
 }
+function bgchg(){
+  if(!(header.classList.remove("navbar-dark"))){
+    //header.classList.remove("navbar-dark");
+    header.classList.add("navbar-light");
+    //brand.classList.add("text-light");
+    header.style.cssText="position: fixed;  top: 0;    left: 0;    width: 100%;    background-color: white;"
+  }
+    else{
+      brand.classList.add("text-dark");
+    header.classList.remove("navbar-light");
+    header.classList.add("navbar-dark");
+    }
+  }
 
 $(document).ready(function(){ 
     $(window).scroll(function(){ 
