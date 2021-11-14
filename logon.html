@@ -83,26 +83,30 @@
         >
           <div class="card form wrap-login100 p-l-55 p-r-55 p-t-53 p-b-54">
             <form
+              action="index.html"
               class="login100-form validate-form"
-              action="/login"
-              method="POST"
+              id="form"
             >
               <span class="login100-form-title p-b-45"> Login </span>
 
               <div
-                class="wrap-input100 validate-input m-b-23"
+                class="wrap-input100 validate-input m-b-3"
                 data-validate="Username is reauired"
               >
                 <span class="label-input100">Email</span>
                 <input
+                  id="email"
                   class="input100"
                   type="email"
                   name="email"
                   placeholder="Type your email"
                 />
-                <span class="focus-input100" data-symbol="&#xf206;"></span>
-              </div>
 
+                <span class="focus-input100" data-symbol="&#xf15a;"></span>
+              </div>
+              <div class="m-t-1 m-b-1">
+                <span class="error" id="error"></span>
+              </div>
               <div
                 class="wrap-input100 validate-input"
                 data-validate="Password is required"
@@ -118,10 +122,22 @@
                   name="password"
                   placeholder="Type your password"
                 />
+
                 <span class="focus-input100" data-symbol="&#xf190;"></span>
               </div>
+              <div class="m-t-1 m-b-1">
+                <span class="meter" id="mbox">
+                  <meter
+                    max="4"
+                    id="meter"
+                    style="display: none; height: 8px"
+                  ></meter
+                ></span>
+                <p id="password-strength-text"></p>
+              </div>
+
               <div class="p-t-8 p-b-28 acc">
-                <a style="float: left" href="/login/register">
+                <a style="float: left" href="./signupPage.html">
                   Create a new account
                 </a>
 
@@ -131,7 +147,13 @@
               <div class="m-3 container-login100-form-btn">
                 <div class="wrap-login100-form-btn">
                   <div class="login100-form-bgbtn"></div>
-                  <button type="submit" class="login100-form-btn">Login</button>
+                  <button
+                    type="button"
+                    class="login100-form-btn"
+                    onclick="validateForm()"
+                  >
+                    Login
+                  </button>
                 </div>
               </div>
             </form>
@@ -140,20 +162,139 @@
       </div>
     </div>
   </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"
   ></script>
-  <script src="login.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
+    integrity="sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
   <!script src="main.js"><!/script>
+  <script src="login.js"></script>
   <script>
-    /*
-  var navbar = document.getElementById("navbar"); var header =
-  document.getElementById("header"); var x = window.matchMedia("(max-width:
-  700px)"); navbar.style.cssText = "position:
-  fixed;background:white;width:100%;box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);";
-  if (x.matches) { header.style.cssText = "font-size:30px;"; } else {
-  header.style.cssText = "font-size:35px;"; }*/
+    $(document).ready(function () {
+      $("#password").keyup(function () {
+        if (check_pass()) {
+          return true;
+        }
+      });
+    });
+    /*function check_pass() {
+      var strength = {
+        1: "Worst ☹ 😡",
+        2: "Bad ☹ 😠",
+        3: "Weak ☹ 😐",
+        4: "Good ☺ 🙂",
+        5: "Strong ☻ 😊",
+      };
+      var pwd = document.getElementById("password");
+      var val = document.getElementById("password").value;
+      var meter = document.getElementById("meter");
+      var mbox = document.getElementById("mbox");
+      var text = document.getElementById("password-strength-text");
+      var no = 0;
+
+      if (val != "") {
+        mbox.style.display = "flex";
+        meter.style.display = "inline-block";
+
+        if (
+          val.length > 7 &&
+          val.match(/[a-z]/) &&
+          val.match(/[A-Z]/) &&
+          val.match(/\d+/) &&
+          val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)
+        )
+          no = 5;
+        else if (
+          val.length > 7 &&
+          val.match(/[a-z]/) &&
+          val.match(/[A-Z]/) &&
+          val.match(/\d+/)
+        )
+          no = 4;
+        else if (
+          val.length > 7 &&
+          ((val.match(/[a-z]/) && val.match(/\d+/) && val.match(/[A-Z]/)) ||
+            (val.match(/[a-z]/) &&
+              val.match(/[A-Z]/) &&
+              val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) ||
+            (val.match(/[A-Z]/) &&
+              val.match(/\d+/) &&
+              val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) ||
+            (val.match(/[a-z]/) &&
+              val.match(/\d+/) &&
+              val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)))
+        )
+          no = 3;
+        else if (
+          val.length > 7 &&
+          ((val.match(/[a-z]/) && val.match(/\d+/)) ||
+            (val.match(/[a-z]/) &&
+              val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) ||
+            (val.match(/[A-Z]/) && val.match(/\d+/)) ||
+            (val.match(/[A-Z]/) &&
+              val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) ||
+            val.match(/[a-z]/) ||
+            val.match(/[A-Z]/) ||
+            (val.match(/[a-z]/) && val.match(/[A-Z]/)) ||
+            val.match(/\d+/) ||
+            (val.match(/\d+/) && val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/)) ||
+            val.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/))
+        )
+          no = 2;
+        else if (val.length <= 7) no = 1;
+
+        console.log("No:", no);
+
+        if (no == 1) {
+          $("#meter").animate({ width: "10%" }, 300);
+          mbox.style.borderColor = "red";
+          meter.style.backgroundColor = "red";
+          text.style.color = "red";
+          pwd.focus;
+          return false;
+        } else if (no == 2) {
+          $("#meter").animate({ width: "20%" }, 300);
+          meter.style.backgroundColor = "red";
+          mbox.style.borderColor = "red";
+          text.style.color = "red";
+          pwd.focus;
+          return false;
+        } else if (no == 3) {
+          $("#meter").animate({ width: "40%" }, 300);
+          meter.style.backgroundColor = "#FF8000";
+          mbox.style.borderColor = "#FF8000";
+          text.style.color = "#FF8000";
+          pwd.focus;
+          return false;
+        } else if (no == 4) {
+          $("#meter").animate({ width: "70%" }, 300);
+          meter.style.backgroundColor = "rgb(0, 187, 0)";
+          mbox.style.borderColor = "rgb(0, 187, 0)";
+          text.style.color = "rgb(0, 187, 0)";
+          return true;
+        } else if (no == 5) {
+          $("#meter").animate({ width: "100%" }, 300);
+          meter.style.backgroundColor = "green";
+          mbox.style.borderColor = "green";
+          text.style.color = "green";
+          return true;
+        }
+        text.innerHTML = "Strength: " + "<strong>" + strength[no] + "</strong>";
+      } else {
+        text.innerHTML = "";
+        text.style.color = "#666666";
+        meter.style.display = "none";
+        mbox.style.display = "none";
+        return false;
+      }
+    }*/
   </script>
 </html>
